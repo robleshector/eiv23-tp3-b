@@ -1,7 +1,10 @@
 #include <stm32f1xx.h>
 
+#define LUZ_ON 0
+#define LUZ_OFF 1
+#define PULSADOR_ACTIVO 0
+#define PULSADOR_NORMAL 1
 
-enum {LUZ_ON=0,LUZ_OFF=1,PULSADOR_ACTIVO=0,PULSADOR_NORMAL=1};
 
 int main(void){
     RCC->APB2ENR |= RCC_APB2ENR_IOPBEN | RCC_APB2ENR_IOPCEN;

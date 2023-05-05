@@ -9,7 +9,8 @@
 enum SP_Pines{
     SP_PB9,
     SP_PC13,
-    SP_LED = SP_PC13
+    SP_LED = SP_PC13,
+    SP_HPIN_LIMITE
 };
 
 /**

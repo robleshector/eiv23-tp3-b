@@ -63,15 +63,30 @@ static Pin const pines[SP_HPIN_LIMITE] = {
 };
 
 /**
- * @brief Obtiene el objeto pin a partir de su handle
+ * @brief Obtiene un puntero a Pin a partir de su handle
  * 
+ * @param hPin Handle
+ * @return Pin const* Puntero al objeto Pin (solo lectura) 
  */
-#define PIN_DE_HANDLE(hpin) (pines[hpin])
+static Pin const * pinDeHandle(SP_HPin hPin){
+    return &pines[hPin];
+}
 /**
  * @brief Calcula la posición en del bit de habilitación
  * del puerto en APB2_ENR a partir de su dirección en memoria.
  */
-#define GPIO_A_ENR_BIT(gpio) (((uint32_t)(gpio) >> 10) & 0xF)
+
+/**
+ * @brief Habilita el reloj de un puerto GPIO
+ * @note Debe ser llamada antes de intentar usar el puerto
+ * por primera vez.
+ * @param puerto Puntero al puerto GPIO 
+ * @return uint32_t Máscara de habilitación de reloj
+ */
+static void habilitaRelojPuerto(GPIO_TypeDef const *puerto){
+    int const offset_habilitacion = (((uint32_t)(puerto) >> 10) & 0xF);
+    RCC->APB2ENR |= offset_habilitacion;
+}
 // ... continúa implementación
 
 /**
@@ -103,9 +118,9 @@ void SP_Pin_setModo(SP_HPin hPin,SP_Pin_Modo modo){
         SALIDA_2MHz_OPEN_DRAIN = 0b0110
     };
     if(hPin >= SP_HPIN_LIMITE) return; // debiera generar un error
-    Pin const *pin = &PIN_DE_HANDLE(hPin);
+    Pin const *pin = pinDeHandle(hPin);
     __disable_irq();
-    RCC->APB2ENR |= GPIO_A_ENR_BIT(pin->puerto);
+    habilitaRelojPuerto(pin->puerto);
     switch (modo)
     {
     case SP_PIN_ENTRADA:

@@ -7,10 +7,15 @@
 // Declaraciones
 // Espacio de nombres: SP_
 
+/**
+ * @brief Handles correspondientes a los pines de entrada/salida, para 
+ * usar en el parámetro hPin (primer parámetro) de las funciones SP_Pin_xxx
+ * 
+ */
 enum SP_Pines{
     SP_PB9,
     SP_PC13,
-    SP_LED = SP_PC13,
+    SP_LED = SP_PC13, // LED verde integrado en la placa, pin PC13 
     SP_HPIN_LIMITE
 };
 

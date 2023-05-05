@@ -112,9 +112,25 @@ static void config_modo(Pin const *pin, int bits_modo){
 void SP_Pin_setModo(SP_HPin hPin,SP_Pin_Modo modo){
     // Ver Manual de referencia de la familia sec. 9.2.1/.2
     enum ConfigsPin{
+        /** 
+         * Bits[1:0]: Modo E/S, 00 es modo entrada
+         * Bits[3:2]: Configuración de entrada, 01 es entrada flotante
+         */
         ENTRADA_FLOTANTE = 0b0100,
+        /** 
+         * Bits[1:0]: Modo E/S, 00 es modo entrada
+         * Bits[3:2]: Configuración de entrada, 10 es entrada con pull-up/pull-dn
+         */
         ENTRADA_PULLUP_PULLDN = 0b1000,
+        /** 
+         * Bits[1:0]: Modo E/S, 10 es modo salida con frec. máxima de 2MHz
+         * Bits[3:2]: Configuración de salida, 00 es salida de propósito general normal (push/pull)
+         */
         SALIDA_2MHz = 0b0010,
+        /** 
+         * Bits[1:0]: Modo E/S, 10 es modo salida con frec. máxima de 2MHz
+         * Bits[3:2]: Configuración de salida, 01 es salida de propósito general open drain
+         */
         SALIDA_2MHz_OPEN_DRAIN = 0b0110
     };
     if(hPin >= SP_HPIN_LIMITE) return; // debiera generar un error

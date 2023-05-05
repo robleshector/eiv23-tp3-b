@@ -2,6 +2,7 @@
 #define SOPORTE_PLACA_H
 
 #include <stdbool.h>
+#include <stdint.h>
 
 // Declaraciones
 // Espacio de nombres: SP_
@@ -56,5 +57,18 @@ bool SP_Pin_read(SP_HPin hPin);
  */
 void SP_Pin_write(SP_HPin hPin, bool valor);
 
+/**
+ * @brief Inicializa la librería. Es necesario llamar a
+ * esta función antes de usar la misma.
+ * 
+ */
+void SP_init(void);
+
+/**
+ * @brief Retardo con bloqueo durante un tiempo dado en milisegundos
+ * @note Llamar a SP_init antes de usar.
+ * @param tiempo Tiempo en milisegundos
+ */
+void SP_delay(uint32_t tiempo);
 
 #endif

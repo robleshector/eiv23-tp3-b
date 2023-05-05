@@ -37,7 +37,7 @@ typedef enum SP_Pin_Modo{
  * @param pin Handle al objeto Pin
  * @param modo Modo a configurar
  */
-void SP_Pin_setModo(SP_HPin pin,SP_Pin_Modo modo);
+void SP_Pin_setModo(SP_HPin hPin,SP_Pin_Modo modo);
 
 /**
  * @brief Lee el buffer de entrada de un Pin
@@ -46,7 +46,7 @@ void SP_Pin_setModo(SP_HPin pin,SP_Pin_Modo modo);
  * @return true Entrada ALTA
  * @return false Entrada BAJA
  */
-bool SP_Pin_read(SP_HPin pin);
+bool SP_Pin_read(SP_HPin hPin);
 
 /**
  * @brief Escribe el buffer de salida de un Pin
@@ -54,7 +54,7 @@ bool SP_Pin_read(SP_HPin pin);
  * @param pin Handle al objeto Pin
  * @param valor True: Salida ALTA. False: Salida BAJA.
  */
-void SP_Pin_write(SP_HPin pin, bool valor);
+void SP_Pin_write(SP_HPin hPin, bool valor);
 
 
 #endif

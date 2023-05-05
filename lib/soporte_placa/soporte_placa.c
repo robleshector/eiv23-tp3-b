@@ -8,16 +8,16 @@ typedef struct Pin{
     int nrPin;
 }Pin;
 
-Pin const pines[SP_HPIN_LIMITE] = {
+static Pin const pines[SP_HPIN_LIMITE] = {
     [SP_PB9]={.puerto=GPIOB,.nrPin=9},
     [SP_PC13]={.puerto=GPIOC,.nrPin=13}
 };
 
 #define PIN_DE_HANDLE(hpin) (pines[hpin])
-
+#define GPIO_A_ENR_BIT(gpio) ((gpio >> 10) & 0x7)
 // ... continúa implementación
 
-void SP_Pin_setModo(SP_HPin pin,SP_Pin_Modo modo){
+void SP_Pin_setModo(SP_HPin hpin,SP_Pin_Modo modo){
 
 }
 

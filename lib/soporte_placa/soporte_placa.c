@@ -85,7 +85,7 @@ static Pin const * pinDeHandle(SP_HPin hPin){
  */
 static void habilitaRelojPuerto(GPIO_TypeDef const *puerto){
     int const offset_habilitacion = (((uint32_t)(puerto) >> 10) & 0xF);
-    RCC->APB2ENR |= offset_habilitacion;
+    RCC->APB2ENR |= 1 << offset_habilitacion;
 }
 // ... continúa implementación
 
@@ -158,11 +158,13 @@ void SP_Pin_setModo(SP_HPin hPin,SP_Pin_Modo modo){
     __enable_irq();
 }
 
-bool SP_Pin_read(SP_HPin pin){
-
+bool SP_Pin_read(SP_HPin hPin){
+    Pin const *const pin = pinDeHandle(hPin);
+    return pin->puerto->IDR & (1 << pin->nrPin);
 }
 
-void SP_Pin_write(SP_HPin pin, bool valor){
-    
+void SP_Pin_write(SP_HPin hPin, bool valor){
+    Pin const *const pin = pinDeHandle(hPin);
+    pin->puerto->BSRR = 1 << (pin->nrPin + (valor ? 0 : 16));
 }
 

@@ -159,12 +159,8 @@ void SP_Pin_setModo(SP_HPin hPin,SP_Pin_Modo modo){
 }
 
 bool SP_Pin_read(SP_HPin hPin){
-    Pin const *const pin = pinDeHandle(hPin);
-    return pin->puerto->IDR & (1 << pin->nrPin);
 }
 
 void SP_Pin_write(SP_HPin hPin, bool valor){
-    Pin const *const pin = pinDeHandle(hPin);
-    pin->puerto->BSRR = 1 << (pin->nrPin + (valor ? 0 : 16));
 }
 

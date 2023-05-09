@@ -104,7 +104,7 @@ static void config_modo(Pin const *pin, int bits_modo){
         pin->puerto->CRL =  (pin->puerto->CRL & ~(mascara << offset))
                           | ((bits_modo & mascara)<<offset); 
     }else{ // 8..15
-        pin->puerto->CRH =  (pin->puerto->CRL & ~(mascara << offset))
+        pin->puerto->CRH =  (pin->puerto->CRH & ~(mascara << offset))
                           | ((bits_modo & mascara)<<offset); 
     }
 }

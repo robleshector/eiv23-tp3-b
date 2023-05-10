@@ -1,6 +1,7 @@
 #include <soporte_placa.h>
 #include <stm32f1xx.h>
 #include <stdint.h>
+#include <stddef.h>
 
 // Implementación
 
@@ -45,9 +46,46 @@ void SP_delay(uint32_t tiempo){
 
 }
 
+#ifndef SP_MAX_TIMEOUTS
+#define SP_MAX_TIMEOUTS 4
+#endif
+
+typedef struct SP_TimeoutDescriptor{
+    uint32_t volatile tiempo;
+    SP_TimeoutHandler volatile handler;
+    void *volatile  param;
+} SP_TimeoutDescriptor;
+
+SP_TimeoutDescriptor timeoutDescriptors[SP_MAX_TIMEOUTS];
+
+
+bool SP_Timeout(uint32_t const tiempo,SP_TimeoutHandler const handler,void *const param){
+    bool hecho = false;
+    __disable_irq();
+    for(size_t i=0;i<SP_MAX_TIMEOUTS;++i){
+        SP_TimeoutDescriptor * const td = timeoutDescriptors + i;
+        if (td->tiempo) continue;
+        td->tiempo = tiempo;
+        td->handler = handler;
+        td->param = param;
+        hecho = true;
+        break;
+    }
+    __enable_irq();
+    return hecho;
+}
 
 void SysTick_Handler(void){
     ++ticks;
+    for (size_t i=0;i<SP_MAX_TIMEOUTS;++i){
+        SP_TimeoutDescriptor *const td = timeoutDescriptors + i;
+        if (td->tiempo){
+            const uint32_t tiempo_restante = --td->tiempo;
+            if(!tiempo_restante && td->handler){
+                td->handler(td->param);
+            }
+        } 
+    }
 }
 
 /* GPIO */

@@ -53,8 +53,7 @@ bool SP_Timeout(uint32_t const tiempo,SP_TimeoutHandler const handler,void *cons
     return hecho;
 }
 
-void SysTick_Handler(void){
-    ++ticks;
+static void procesaTimeouts(void){
     for (size_t i=0;i<SP_MAX_TIMEOUTS;++i){
         SP_TimeoutDescriptor *const td = timeoutDescriptors + i;
         if (td->tiempo){
@@ -64,4 +63,9 @@ void SysTick_Handler(void){
             }
         } 
     }
+}
+
+void SysTick_Handler(void){
+    ++ticks;
+    procesaTimeouts();
 }
